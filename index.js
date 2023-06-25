@@ -27,9 +27,25 @@ const questions = [
 ];
 
 //* example function to writefile in progress
-async function createLogo () {
-const inquire = await inquirer.prompt(questions);
-const writeSVGFile = await fs.writeFile('./examples/log.svg', "hello world", (err) =>
-err ? console.error(err) : console.log ('Success!')
-)
+const isColor = (strColor) => {
+    const s = new Option().style;
+    s.color = strColor;
+    return s.color !=='';
 }
+
+isColor('red');
+// inquirer.prompt(questions).then((data) => {
+//     const logoText = data.text;
+    
+//     if (logoText.length > 3 || logoText.length == 0) {
+//         console.log('please enter up to 3 characters for your logo');
+//         return;
+//     }
+// })
+
+
+//* this is the text string for svg file
+//* <text x="150" y="115" font-size="50" text-anchor="middle" fill="${this.textColor}">${this.text}</text>`
+// const writeSVGFile = await fs.writeFile('./examples/log.svg', "hello world", (err) =>
+// err ? console.error(err) : console.log ('Success!')
+// )
