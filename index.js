@@ -72,12 +72,11 @@ const init = () => {
             }
             shapeType.setShapeColor(shapeColor);
             newLogo.setText(textValue, textColor);
-            console.log(shapeType);
             newLogo.setShape(shapeType);
 
             fs.writeFile('logo.svg', newLogo.render(), (err) => {
                 if (err) throw err;
-                console.log('The SVG file has been created!');
+                console.log('Generated logo.svg!');
             });
         }
     )
