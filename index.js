@@ -1,7 +1,7 @@
 
 const inquirer = require('inquirer');
 const fs = require('fs');
-const { square } = require('./lib/shape');
+const { Square } = require('./lib/shape');
 
 class SVG {
     constructor() {
@@ -10,10 +10,10 @@ class SVG {
     }
 
     setText(textValue, textColor) {
-        this.textEl = `<text x="100" y="100" fill="${textColor}" font-size="50" text-anchor="middle">${textValue}</text>`;
+        this.textEl = `<text x="148" y="112" fill="${textColor}" font-size="50" text-anchor="middle">${textValue}</text>`;
     }
     setShape(shape) {
-        this.shapeEL = shape.render;
+        this.shapeEl = shape.render();
     }
     render() {
         return `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">${this.shapeEl}${this.textEl}</svg>`;
@@ -44,7 +44,7 @@ const questions = [
         type: 'list',
         name: 'shape',
         message: 'Please choose the shape for your logo',
-        choices: ['circle', 'triangle', 'square']
+        choices: ['Circle', 'Triangle', 'Square']
     },
     {
         type: 'input',
@@ -52,3 +52,35 @@ const questions = [
         message: 'Please enter the color or hexadecimal number for the shape of your logo'
     },
 ];
+
+const init = () => {
+    inquirer.prompt(questions)
+        .then(({textValue, textColor, shape, shapeColor }) => {
+            const newLogo = new SVG();
+            let shapeType;
+
+            switch (shape) {
+                case 'Circle':
+                    shapeType = new Circle();
+                    break;
+                case 'Triangle':
+                    shapeType = new Triangle();
+                    break;
+                case 'Square':
+                    shapeType = new Square();
+                    break;
+            }
+            shapeType.setShapeColor(shapeColor);
+            newLogo.setText(textValue, textColor);
+            console.log(shapeType);
+            newLogo.setShape(shapeType);
+
+            fs.writeFile('logo.svg', newLogo.render(), (err) => {
+                if (err) throw err;
+                console.log('The SVG file has been created!');
+            });
+        }
+    )
+};
+
+init();
