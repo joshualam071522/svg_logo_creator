@@ -1,7 +1,7 @@
 
 const inquirer = require('inquirer');
 const fs = require('fs');
-const { Square } = require('./lib/shape');
+const { Square, Circle, Triangle } = require('./lib/shape');
 
 class SVG {
     constructor() {
@@ -10,7 +10,7 @@ class SVG {
     }
 
     setText(textValue, textColor) {
-        this.textEl = `<text x="148" y="112" fill="${textColor}" font-size="50" text-anchor="middle">${textValue}</text>`;
+        this.textEl = `<text x="150" y="120" fill="${textColor}" font-size="50" text-anchor="middle">${textValue}</text>`;
     }
     setShape(shape) {
         this.shapeEl = shape.render();
