@@ -1,12 +1,39 @@
 
 const inquirer = require('inquirer');
 const fs = require('fs');
+const { square } = require('./lib/shape');
+
+class SVG {
+    constructor() {
+        this.shapeEl = '';
+        this.textEl = '';
+    }
+
+    setText(textValue, textColor) {
+        this.textEl = `<text x="100" y="100" fill="${textColor}" font-size="50" text-anchor="middle">${textValue}</text>`;
+    }
+    setShape(shape) {
+        this.shapeEL = shape.render;
+    }
+    render() {
+        return `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">${this.shapeEl}${this.textEl}</svg>`;
+    }
+}
 
 const questions = [
     {
         type: 'input',
-        name: 'text',
-        message: 'Enter up to three characters for your logo'
+        name: 'textValue',
+        message: 'Enter up to three characters for your logo',
+        validate:  (value) => {
+            if (value.length > 3) {
+                return 'Please enter up to three characters';
+            }
+            if (value.length < 1) {
+                return 'Please enter at least one character';
+            }
+            return true;
+        }
     },
     {
         type: 'input',
@@ -25,27 +52,3 @@ const questions = [
         message: 'Please enter the color or hexadecimal number for the shape of your logo'
     },
 ];
-
-//* example function to writefile in progress
-const isColor = (strColor) => {
-    const s = new Option().style;
-    s.color = strColor;
-    return s.color !=='';
-}
-
-isColor('red');
-// inquirer.prompt(questions).then((data) => {
-//     const logoText = data.text;
-    
-//     if (logoText.length > 3 || logoText.length == 0) {
-//         console.log('please enter up to 3 characters for your logo');
-//         return;
-//     }
-// })
-
-
-//* this is the text string for svg file
-//* <text x="150" y="115" font-size="50" text-anchor="middle" fill="${this.textColor}">${this.text}</text>`
-// const writeSVGFile = await fs.writeFile('./examples/log.svg', "hello world", (err) =>
-// err ? console.error(err) : console.log ('Success!')
-// )
